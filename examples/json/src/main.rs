@@ -13,12 +13,13 @@
 // limitations under the License.
 
 use json_core::Outputs;
-use json_methods::SEARCH_JSON_ELF;
+use json_methods::{SEARCH_JSON_ELF, SEARCH_JSON_ID};
 use risc0_zkvm::{
     default_prover,
     serde::{from_slice, to_vec},
     ExecutorEnv,
 };
+use std::time::Instant;
 
 fn main() {
     let data = include_str!("../res/example.json");
@@ -26,7 +27,7 @@ fn main() {
     println!();
     println!("  {:?}", outputs.hash);
     println!(
-        "provably contains a field 'critical_data' with value {}",
+        "provably contains a field 'created' with value {}",
         outputs.data
     );
 }
@@ -37,11 +38,16 @@ fn search_json(data: &str) -> Outputs {
         .build()
         .unwrap();
 
+    let before = Instant::now();
     // Obtain the default prover.
     let prover = default_prover();
 
     // Produce a receipt by proving the specified ELF binary.
     let receipt = prover.prove_elf(env, SEARCH_JSON_ELF).unwrap();
+    println!("proving time: {:.2?}s", before.elapsed());
+    let before = Instant::now();
+    receipt.verify(SEARCH_JSON_ID).expect("invalid receipt");
+    println!("verifying time: {:.2?}s", before.elapsed());
 
     from_slice(&receipt.journal).unwrap()
 }

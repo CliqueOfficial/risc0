@@ -1,12 +1,8 @@
 {
-    "boolean_field": true,
-    "critical_data": 47,
-    "obj_field": {
-        "string_subfield": "hello world",
-        "array_subfield": [
-            "more",
-            "example",
-            "text"
-        ]
-    }
+    "choices": [
+        {"finish_reason": "stop", "index": 0, "message": {"content": "As an AI language model, I cannot verify the validity of your claim. It is recommended that you seek a resolution with Sam Altman directly", "role": "assistant"}}
+    ],
+    "created": 1692776393,
+    "id": "chatcmp1-7qckZI4XIZGSiJAWdDZIFOTApiZIM", "model": "gpt-3.5-turbo-0301", "object": "chat.completion",
+    "usage": {"completion_tokens": 29, "prompt_tokens": 16, "total_tokens": 45}
 }
